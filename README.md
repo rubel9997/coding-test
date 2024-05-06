@@ -1,7 +1,7 @@
 <h1 align="center">Bank Management System</h1>
 
 ## Introduction
-Bank Management System is an open-source Laravel application designed to simplify the process of managing banking transactions for users. With this application, users can create accounts, deposit funds, withdraw funds, and view transaction history. This documentation provides a step-by-step guide on how to set up the project and configure banking functionalities.
+Bank Management System is a Laravel application aimed at streamlining banking transaction management for users. Through this platform, users can effortlessly create accounts, deposit and withdraw funds, and access transaction history. This comprehensive documentation offers a detailed walkthrough for setting up the project and configuring essential banking features.
 
 ### Prerequisites
 - PHP 8.2 or higher

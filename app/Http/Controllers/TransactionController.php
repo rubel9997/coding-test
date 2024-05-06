@@ -8,7 +8,6 @@ use App\Http\Requests\WithdrawalRequest;
 use App\Models\Transaction;
 use App\Services\DepositService;
 use App\Services\WithdrawalService;
-use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {

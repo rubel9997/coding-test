@@ -14,12 +14,6 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-{{--        <!-- DataTables CSS -->--}}
-{{--        <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">--}}
-
-{{--        <!-- DataTables JS -->--}}
-{{--        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>--}}
-
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">

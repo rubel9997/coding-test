@@ -18,7 +18,7 @@ class DepositService
 
         $depositTransaction = new Transaction();
         $depositTransaction->user_id = $user->id;
-        $depositTransaction->amount = $data['amount'];;
+        $depositTransaction->amount =  floatval($data['amount']);
         $depositTransaction->transaction_type = TransactionType::DEPOSIT;
         $depositTransaction->date = Carbon::now();
         $depositTransaction->save();

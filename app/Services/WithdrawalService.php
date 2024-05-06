@@ -16,6 +16,7 @@ class WithdrawalService
     public function withdrawalTransaction(array $data)
     {
         return DB::transaction(function () use ($data) {
+
             $auth_user = auth()->user();
             $amount = floatval($data['amount']);
 
@@ -77,7 +78,7 @@ class WithdrawalService
         $withdrawTransaction->date = Carbon::now();
         $withdrawTransaction->save();
 
-        return $withdrawTransaction; // Return the created transaction
+        return $withdrawTransaction;
     }
 
 }
