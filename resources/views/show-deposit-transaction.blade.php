@@ -1,19 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Account No.') }} : {{ $auth_user->email }}
+                {{ __('Deposit Transaction') }}
             </h2>
-
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Account Type') }} : {{ $auth_user->account_type }}
-            </h2>
-
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Balance') }} : {{ $auth_user->balance }}
-            </h2>
-
         </div>
     </x-slot>
 
@@ -43,7 +33,7 @@
                         </div>
 
                         <div class="flex items-center justify-end">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-300 disabled:opacity-25 transition">{{ __('Submit') }}</button>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-300 disabled:opacity-25 transition">{{ __('Deposit') }}</button>
                         </div>
                     </form>
                 </div>
@@ -83,7 +73,7 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->transaction_type ?? '' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->amount ?? 0 }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ number_format($transaction->amount, 0, ',', ',') ?? 0 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->date ?? '' }}</td>
                                 </tr>
                             @endforeach

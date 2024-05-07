@@ -7,51 +7,57 @@ use App\Http\Requests\DepositReqeust;
 use App\Http\Requests\WithdrawalRequest;
 use App\Models\Transaction;
 use App\Services\DepositService;
+use App\Services\TransactionService;
 use App\Services\WithdrawalService;
 
 class TransactionController extends Controller
 {
-    public function showAllTransactionsAndBalance()
+
+    public function index(TransactionService $transactionService)
     {
-        $auth_user = auth()->user();
-        $allTransaction = Transaction::with('user')->where('user_id',$auth_user->id)->paginate(10);;
-        return view('show-transaction-balance',compact('allTransaction','auth_user'));
+
+        $allTransaction = $transactionService->getAllTransactionAndBalance(auth()->user());
+        $balance = auth()->user()->balance;
+
+        return view('show-transaction-balance',compact('allTransaction','balance'));
     }
 
-    public function showDepositedTransactions()
+
+    public function showDepositedTransactions(TransactionService $transactionService)
     {
-        $auth_user = auth()->user();
-        $allDepositTransaction = Transaction::where('user_id',$auth_user->id)
-            ->where('transaction_type',TransactionType::DEPOSIT)
-            ->paginate(10);
-        return view('show-deposit-transaction',compact('allDepositTransaction','auth_user'));
+
+        $allDepositTransaction = $transactionService->getAllDepositTransaction(auth()->user());
+
+        return view('show-deposit-transaction',compact('allDepositTransaction'));
 
     }
 
-    public function deposit(DepositReqeust $request,DepositService $depositService)
+
+    public function deposit(DepositReqeust $request,TransactionService $transactionService)
     {
 
         $validated = $request->validated();
 
-        $deposit = $depositService->depositStore($validated);
+        $deposit = $transactionService->addDeposit($validated);
 
         return back()->with('success','Deposit successful');
     }
 
-    public function showWithdrawalTransactions()
+
+    public function showWithdrawalTransactions(TransactionService $transactionService)
     {
-        $auth_user = auth()->user();
-        $allWithdrawalTransaction = Transaction::where('user_id', $auth_user->id)
-            ->where('transaction_type', TransactionType::WITHDRAWAL)
-            ->paginate(10);
-        return view('show-withdrawal-transaction',compact('allWithdrawalTransaction','auth_user'));
+
+        $allWithdrawalTransaction = $transactionService->getAllWithdrawalTransaction(auth()->user());
+
+        return view('show-withdrawal-transaction',compact('allWithdrawalTransaction'));
     }
 
-    public function withdrawal(WithdrawalRequest $request,WithdrawalService $withdrawalService)
+
+    public function withdrawal(WithdrawalRequest $request,TransactionService $transactionService)
     {
         $validated = $request->validated();
 
-        $withdrawal = $withdrawalService->withdrawalTransaction($validated);
+        $withdrawal = $transactionService->withdrawalTransaction($validated);
 
         if (isset($withdrawal['error'])) {
             return back()->with('error', $withdrawal['error']);

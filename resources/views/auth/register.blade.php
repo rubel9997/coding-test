@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('users') }}">
+    <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
@@ -12,18 +12,11 @@
         <!-- Account Type -->
             <div class="mt-4">
                 <x-input-label for="account_type" :value="__('Account Type')" />
-                <x-select-input
-                    id="account_type"
-                    name="account_type"
-                    :options="[
-                        \App\Constants\AccountType::INDIVIDUAL => __(\App\Constants\AccountType::INDIVIDUAL),
-                        \App\Constants\AccountType::BUSINESS => __(\App\Constants\AccountType::BUSINESS)
-                    ]"
-                    :value="old('account_type')"
-                    required
-                    autofocus
-                    autocomplete="account_type"
-                />
+                <select class="form-select mt-1 block w-full" name="account_type" id="account_type" required>
+                    <option value="">Select Account Type</option>
+                    <option value="{{ \App\Constants\AccountType::INDIVIDUAL }}" @if(old('account_type') == \App\Constants\AccountType::INDIVIDUAL) selected @endif>{{ \App\Constants\AccountType::INDIVIDUAL }}</option>
+                    <option value="{{ \App\Constants\AccountType::BUSINESS }}" @if(old('account_type') == \App\Constants\AccountType::BUSINESS) selected @endif>{{ \App\Constants\AccountType::BUSINESS }}</option>
+                </select>
                 <x-input-error :messages="$errors->get('account_type')" class="mt-2" />
             </div>
 

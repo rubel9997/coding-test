@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/show-all-transactions-balance', [TransactionController::class, 'showAllTransactionsAndBalance'])->name('show-all-transactions-balance');
+    Route::get('/', [TransactionController::class, 'index'])->name('transaction.index');
     Route::get('/deposit', [TransactionController::class, 'showDepositedTransactions'])->name('deposit');
     Route::post('/deposit', [TransactionController::class, 'deposit']);
     Route::get('/withdrawal', [TransactionController::class, 'showWithdrawalTransactions'])->name('withdrawal');
