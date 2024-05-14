@@ -8,6 +8,7 @@ use App\Constants\AccountType;
 use App\Constants\TransactionType;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class TransactionService
@@ -15,17 +16,39 @@ class TransactionService
 
     public function getAllTransactionAndBalance($user)
     {
-        return Transaction::with('user')->where('user_id',$user->id)->orderByDesc('date')->paginate(10);
+
+        return Cache::remember('all-transaction-page-'.request('page',1), Carbon::now()->addMinutes(5), function () use($user) {
+
+            $transactions = Transaction::with('user')->where('user_id',$user->id)->orderByDesc('date')->paginate(10);
+            $balance = auth()->user()->balance;
+
+            return compact('transactions', 'balance');
+        });
+
     }
 
     public function getAllDepositTransaction($user)
     {
-        return Transaction::where('user_id',$user->id)->where('transaction_type',TransactionType::DEPOSIT)->orderByDesc('date')->paginate(10);
+        return Cache::remember('all-deposit-transaction-page-'.request('page',1), Carbon::now()->addMinutes(5), function () use($user) {
+
+            $depositTransaction = Transaction::where('user_id', $user->id)->where('transaction_type', TransactionType::DEPOSIT)->orderByDesc('date')->paginate(10);
+
+            return compact('depositTransaction');
+
+        });
     }
 
     public function getAllWithdrawalTransaction($user)
     {
-        return Transaction::where('user_id', $user->id)->where('transaction_type', TransactionType::WITHDRAWAL)->orderByDesc('date')->paginate(10);
+
+        return Cache::remember('all-withdrawal-transaction-page-'.request('page',1), Carbon::now()->addMinutes(5), function () use($user) {
+
+            $withdrawalTransaction = Transaction::where('user_id', $user->id)->where('transaction_type', TransactionType::WITHDRAWAL)->orderByDesc('date')->paginate(10);;
+
+            return compact('withdrawalTransaction');
+
+        });
+
     }
 
 
@@ -43,6 +66,9 @@ class TransactionService
 
             $user->balance += $data['amount'];
             $user->save();
+
+//            Cache::forget('all_transaction_data_'.$user->id);
+//            Cache::forget('all_deposit_transaction_data_'.$user->id);
 
             return $depositTransaction;
         });
@@ -66,6 +92,9 @@ class TransactionService
 
             $auth_user->balance -= $amount + $fee;
             $auth_user->save();
+
+//            Cache::forget('all_transaction_data_'.$auth_user->id);
+//            Cache::forget('all_withdrawal_transaction_data_'.$auth_user->id);
 
             return ['withdraw' => $withdrawTransaction];
         });

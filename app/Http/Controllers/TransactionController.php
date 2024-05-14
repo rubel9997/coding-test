@@ -17,9 +17,13 @@ class TransactionController extends Controller
     {
 
         $allTransaction = $transactionService->getAllTransactionAndBalance(auth()->user());
-        $balance = auth()->user()->balance;
 
-        return view('show-transaction-balance',compact('allTransaction','balance'));
+        return view('show-transaction-balance',
+            [
+                'allTransaction'=>$allTransaction['transactions'],
+                'balance'=>$allTransaction['balance'],
+            ]
+        );
     }
 
 
@@ -28,7 +32,11 @@ class TransactionController extends Controller
 
         $allDepositTransaction = $transactionService->getAllDepositTransaction(auth()->user());
 
-        return view('show-deposit-transaction',compact('allDepositTransaction'));
+        return view('show-deposit-transaction',
+            [
+                'allDepositTransaction'=>$allDepositTransaction['depositTransaction'],
+            ]
+        );
 
     }
 
@@ -49,7 +57,10 @@ class TransactionController extends Controller
 
         $allWithdrawalTransaction = $transactionService->getAllWithdrawalTransaction(auth()->user());
 
-        return view('show-withdrawal-transaction',compact('allWithdrawalTransaction'));
+        return view('show-withdrawal-transaction',
+            [
+                'allWithdrawalTransaction'=>$allWithdrawalTransaction['withdrawalTransaction'],
+            ]);
     }
 
 
