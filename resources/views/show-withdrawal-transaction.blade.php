@@ -2,10 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Show Withdrawal Transaction') }}
-            </h2>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Balance') }} : {{ $auth_user->balance }}
+                {{ __('Withdrawal Transaction') }}
             </h2>
         </div>
     </x-slot>
@@ -78,7 +75,7 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->transaction_type ?? '' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->amount ?? 0 }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ number_format($transaction->amount, 0, ',', ',') ?? 0 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->fee ?? 0 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->date ?? '' }}</td>
                                 </tr>
